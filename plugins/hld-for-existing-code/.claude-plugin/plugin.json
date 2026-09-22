@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "hld-for-existing-code",
+  "version": "1.1.0",
+  "description": "HLD for existing code: turn a Next.js or Angular (TypeScript/JavaScript) web app into an HLD board — real screenshots, Thai screen/flow descriptions, navigation flow and API request/response examples — as a Figma board or a single HTML page.",
+  "author": {
+    "name": "Ntpstv"
+  },
+  "keywords": [
+    "hld",
+    "architecture",
+    "figma",
+    "angular",
+    "nextjs",
+    "documentation"
+  ]
+}

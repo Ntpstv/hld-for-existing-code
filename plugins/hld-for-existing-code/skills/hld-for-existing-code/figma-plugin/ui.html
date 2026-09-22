@@ -1,0 +1,59 @@
+<style>
+  :root { --bg: #fff; --fg: #1d1f24; --dim: #6b7080; --line: #d9dce3; --accent: #3b6cf6; --err: #d23f4f; --ok: #1d9a6c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 12px; font: 12px/1.45 Inter, system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  h1 { font-size: 13px; margin: 0 0 4px; }
+  p { margin: 0 0 10px; color: var(--dim); }
+  code { font: 11px ui-monospace, Menlo, monospace; }
+  textarea { width: 100%; height: 220px; padding: 8px; border: 1px solid var(--line); border-radius: 6px;
+             font: 11px ui-monospace, Menlo, monospace; resize: vertical; }
+  .row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  button { flex: 1; padding: 8px 10px; border: 0; border-radius: 6px; font: 600 12px Inter, system-ui, sans-serif; cursor: pointer; }
+  #generate { background: var(--accent); color: #fff; }
+  #pick { background: #eef1f7; color: var(--fg); }
+  #status { min-height: 18px; margin-top: 8px; color: var(--dim); }
+  #status.err { color: var(--err); }
+  #status.ok { color: var(--ok); }
+</style>
+
+<h1>HLD for existing code</h1>
+<p>Run <code>node webhld.mjs &lt;app&gt; -o bundle.json</code>, then paste the JSON or pick the file.</p>
+<textarea id="json" placeholder='{ "schema": "web-hld/1", "screens": [ … ] }'></textarea>
+<input id="file" type="file" accept=".json,application/json" hidden />
+<div class="row">
+  <button id="pick">Choose file…</button>
+  <button id="generate">Generate</button>
+</div>
+<div id="status"></div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const status = (text, cls) => { $('status').textContent = text; $('status').className = cls || ''; };
+
+  $('pick').onclick = () => $('file').click();
+  $('file').onchange = () => {
+    const f = $('file').files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { $('json').value = r.result; status(`${f.name} loaded`); };
+    r.readAsText(f);
+  };
+
+  $('generate').onclick = () => {
+    let bundle;
+    try { bundle = JSON.parse($('json').value); }
+    catch (e) { return status('Not valid JSON: ' + e.message, 'err'); }
+    if (!bundle || bundle.schema !== 'web-hld/1' || !Array.isArray(bundle.screens)) {
+      return status('This is not a web-hld bundle (expected "schema": "web-hld/1").', 'err');
+    }
+    status('Drawing…');
+    parent.postMessage({ pluginMessage: { type: 'generate', bundle } }, '*');
+  };
+
+  onmessage = (e) => {
+    const m = e.data.pluginMessage;
+    if (!m) return;
+    if (m.type === 'done') status(m.detail, 'ok');
+    if (m.type === 'error') status(m.detail, 'err');
+  };
+</script>
