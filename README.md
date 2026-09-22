@@ -4,7 +4,7 @@ Claude Code plugin that turns an existing **Next.js** or **Angular** web app int
 with a real screenshot, a Thai description of each screen and flow, where each button goes, and every API call
 with example request/response — as a **Figma board**, a **single HTML page**, or both.
 
-**[English](#english) · [ภาษาไทย](#ภาษาไทย)**
+**[English](#english) · [ภาษาไทย](#ภาษาไทย)** · **[Feedback form](https://forms.gle/4FMT8aunDmMzGRXg9)**
 
 ---
 
@@ -115,6 +115,12 @@ replaces the previous board; anything you drew by hand stays.
    emails, addresses, tokens…) is masked by field name and value pattern. A field with an unusual name can
    still slip through.
 
+### Feedback
+
+Used it on a project? Please spend two minutes on the form — accuracy scores, how much time it
+saved, and anything that slipped through the masking go straight into the next version:
+[https://forms.gle/4FMT8aunDmMzGRXg9](https://forms.gle/4FMT8aunDmMzGRXg9)
+
 ---
 
 ## ภาษาไทย
@@ -220,6 +226,12 @@ Claude จะ**ถามก่อนว่าต้องการ output แบ
    ข้อมูลจริงที่อยู่บนหน้าจอจะติดไปอยู่ใน board
 2. **ตรวจ page API ก่อนแชร์ board** ข้อมูลส่วนบุคคลในตัวอย่าง API (ชื่อ, เลขบัตร, เบอร์โทร, อีเมล, ที่อยู่, token ฯลฯ)
    ถูกปิดตามชื่อ field และรูปแบบค่า field ที่ตั้งชื่อแปลกๆ อาจหลุดได้
+
+### ส่งความเห็นกลับ
+
+ถ้าลองใช้กับโปรเจกต์แล้ว รบกวนตอบแบบสอบถามสั้นๆ (ประมาณ 2 นาที) ทั้งคะแนนความถูกต้อง เวลาที่ประหยัดได้
+และข้อมูลที่หลุดจากการปิดข้อมูล จะถูกนำไปปรับรุ่นถัดไป:
+[https://forms.gle/4FMT8aunDmMzGRXg9](https://forms.gle/4FMT8aunDmMzGRXg9)
 
 ---
 

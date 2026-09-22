@@ -5,6 +5,12 @@ screen, a wireframe outline, where each button/link goes, and every API call beh
 
 Works on its own or through Claude Code (`SKILL.md`).
 
+## Feedback
+
+Used it on a project? Two minutes of answers make the next version better:
+[https://forms.gle/4FMT8aunDmMzGRXg9](https://forms.gle/4FMT8aunDmMzGRXg9)
+ลองใช้แล้วช่วยตอบแบบสอบถามสั้นๆ ให้หน่อยครับ
+
 ## Supported
 
 | | Supported | Not yet |
