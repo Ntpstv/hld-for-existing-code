@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renders a web-hld bundle as one self-contained HTML page (no Figma needed).
+// Renders a hld-for-existing-code bundle as one self-contained HTML page (no Figma needed).
 //   Overview  — totals and every journey as a one-row mini flow, the whole app on one screen
 //   Journey   — that journey's flow with compact cards and arrows
 //   Drawer    — click any screen/API: screenshot, description, where it goes, API examples
@@ -17,7 +17,7 @@ const outArg = oi >= 0 ? argv.splice(oi, 2)[1] : null;
 const bundlePath = argv[0];
 if (!bundlePath) { process.stderr.write('Usage: node html.mjs <bundle.json> [-o board.html]\n'); process.exit(1); }
 const bundle = JSON.parse(fs.readFileSync(bundlePath, 'utf8'));
-if (bundle.schema !== 'web-hld/1') { process.stderr.write('error: not a web-hld/1 bundle\n'); process.exit(1); }
+if (!/^(hld-for-existing-code|web-hld)\/1$/.test(bundle.schema)) { process.stderr.write('error: not a hld-for-existing-code/1 bundle\n'); process.exit(1); }
 const out = outArg || path.join(path.dirname(path.resolve(bundlePath)), 'board.html');
 
 const screens = bundle.screens;
@@ -392,11 +392,11 @@ document.addEventListener('click', e => { if (!e.target.closest('.search')) res.
 
 // ── Theme ────────────────────────────────────────────────────────────────
 const root = document.documentElement;
-try { const t = localStorage.getItem('webhld-theme'); if (t) root.dataset.theme = t; } catch {}
+try { const t = localStorage.getItem('hld-for-existing-code-theme'); if (t) root.dataset.theme = t; } catch {}
 $('#theme').onclick = () => {
   const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
   root.dataset.theme = dark ? 'light' : 'dark';
-  try { localStorage.setItem('webhld-theme', root.dataset.theme); } catch {}
+  try { localStorage.setItem('hld-for-existing-code-theme', root.dataset.theme); } catch {}
 };
 
 nav(); route();

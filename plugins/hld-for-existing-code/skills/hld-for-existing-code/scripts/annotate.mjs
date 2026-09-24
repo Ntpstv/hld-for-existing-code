@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Merges human/Claude-written descriptions into a web-hld bundle. Descriptions live in their own file so
-// regenerating the bundle (webhld.mjs / capture.mjs) never loses them.
+// Merges human/Claude-written descriptions into a hld-for-existing-code bundle. Descriptions live in their own file so
+// regenerating the bundle (hld-for-existing-code.mjs / capture.mjs) never loses them.
 //
 //   node annotate.mjs <bundle.json> <descriptions.json> [-o out.json]
 //
@@ -19,7 +19,7 @@ if (!bundlePath || !descPath) {
 }
 const bundle = JSON.parse(fs.readFileSync(bundlePath, 'utf8'));
 const desc = JSON.parse(fs.readFileSync(descPath, 'utf8'));
-if (bundle.schema !== 'web-hld/1') { process.stderr.write('error: not a web-hld/1 bundle\n'); process.exit(1); }
+if (!/^(hld-for-existing-code|web-hld)\/1$/.test(bundle.schema)) { process.stderr.write('error: not a hld-for-existing-code/1 bundle\n'); process.exit(1); }
 
 const routes = new Set(bundle.screens.map(s => s.route));
 const journeys = [...new Set(bundle.screens.map(s => s.journey))];

@@ -17,8 +17,8 @@
 </style>
 
 <h1>HLD for existing code</h1>
-<p>Run <code>node webhld.mjs &lt;app&gt; -o bundle.json</code>, then paste the JSON or pick the file.</p>
-<textarea id="json" placeholder='{ "schema": "web-hld/1", "screens": [ … ] }'></textarea>
+<p>Run <code>node hld-for-existing-code.mjs &lt;app&gt; -o bundle.json</code>, then paste the JSON or pick the file.</p>
+<textarea id="json" placeholder='{ "schema": "hld-for-existing-code/1", "screens": [ … ] }'></textarea>
 <input id="file" type="file" accept=".json,application/json" hidden />
 <div class="row">
   <button id="pick">Choose file…</button>
@@ -43,8 +43,8 @@
     let bundle;
     try { bundle = JSON.parse($('json').value); }
     catch (e) { return status('Not valid JSON: ' + e.message, 'err'); }
-    if (!bundle || bundle.schema !== 'web-hld/1' || !Array.isArray(bundle.screens)) {
-      return status('This is not a web-hld bundle (expected "schema": "web-hld/1").', 'err');
+    if (!bundle || !/^(hld-for-existing-code|web-hld)\/1$/.test(bundle.schema) || !Array.isArray(bundle.screens)) {
+      return status('This is not a hld-for-existing-code bundle (expected "schema": "hld-for-existing-code/1").', 'err');
     }
     status('Drawing…');
     parent.postMessage({ pluginMessage: { type: 'generate', bundle } }, '*');

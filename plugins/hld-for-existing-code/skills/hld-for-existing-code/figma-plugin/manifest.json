@@ -1,6 +1,6 @@
 {
   "name": "HLD for existing code",
-  "id": "web-hld-importer",
+  "id": "hld-for-existing-code-importer",
   "api": "1.0.0",
   "main": "code.js",
   "ui": "ui.html",

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Screenshots every screen of a web-hld bundle from the running app, so the Figma board shows the real
+// Screenshots every screen of a hld-for-existing-code bundle from the running app, so the Figma board shows the real
 // screen instead of an outline. Uses Playwright (the project's own copy when it has one).
 //
 //   node capture.mjs <bundle.json> --base-url http://localhost:4200 [--project <appDir>]
@@ -147,7 +147,7 @@ function concretePath(route) {
 const samePath = (a, b) => a.replace(/\/+$/, '') === b.replace(/\/+$/, '');
 
 const bundle = JSON.parse(fs.readFileSync(opt.bundle, 'utf8'));
-if (bundle.schema !== 'web-hld/1') { process.stderr.write('error: not a web-hld/1 bundle\n'); process.exit(1); }
+if (!/^(hld-for-existing-code|web-hld)\/1$/.test(bundle.schema)) { process.stderr.write('error: not a hld-for-existing-code/1 bundle\n'); process.exit(1); }
 const shotDir = path.join(path.dirname(path.resolve(opt.out)), 'screenshots');
 fs.mkdirSync(shotDir, { recursive: true });
 

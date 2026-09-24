@@ -1,4 +1,4 @@
-// HLD for existing code (Figma plugin) — draws a web-hld/1 bundle (from scripts/webhld.mjs) as a Figma board:
+// HLD for existing code (Figma plugin) — draws a hld-for-existing-code/1 bundle (from scripts/hld-for-existing-code.mjs) as a Figma board:
 // one column per screen (header, wireframe, GOES TO, API, storage), screens grouped into journeys and
 // laid out left→right in flow order, arrows between neighbouring columns, a diamond where a screen branches.
 
@@ -34,7 +34,7 @@ const MAX_NAV_ROWS = 10, MAX_API_ROWS = 6, MAX_LIST_ROWS = 6;
 const LAYER_GAP = 320, STACK_GAP = 60, SECTION_GAP = 120, MAX_COLS = 5, CARD_GAP = 120, ROW_GAP = 90;
 const FANIN_SPACING = 34, BRANCH_STUB = 14, DECISION = 44;
 const JOURNEY_COLS = 3, GROUP_PAD = 56, GROUP_GAP = 150, GROUP_LABEL_H = 44;
-const TAG = 'webhld';
+const TAG = 'hld-for-existing-code';
 let MONO = { family: 'Inter', style: 'Regular' };
 const API_CARD_W = 560, API_COLS = 3, API_GAP = 40;
 

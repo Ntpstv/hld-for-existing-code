@@ -15,9 +15,9 @@ reading code each time — the same input always gives the same board, and anyon
 without Claude.
 
 **Division of labor**
-- `scripts/webhld.mjs` (Node 18+, no dependencies) — discovers screens from the router, follows each
+- `scripts/hld-for-existing-code.mjs` (Node 18+, no dependencies) — discovers screens from the router, follows each
   screen's handlers into hooks/services down to the actual `axios` / `HttpClient` / `fetch` call, resolves
-  route and URL constants, and writes a `web-hld/1` JSON bundle.
+  route and URL constants, and writes a `hld-for-existing-code/1` JSON bundle.
 - `scripts/html.mjs` — the same board as one self-contained HTML page, for people without Figma.
 - `figma-plugin/` — a local Figma plugin that draws the bundle: one column per screen (header, wireframe,
   GOES TO, API, STORAGE), journeys as dashed boxes, flow arrows labelled with the triggering action, and a
@@ -48,7 +48,7 @@ monorepo (`apps/*`, `packages/*`, Nx), ask which app if it is not obvious from t
 ## Step 2 — Run the analyzer
 
 ```bash
-node <skill-dir>/scripts/webhld.mjs <appDir>
+node <skill-dir>/scripts/hld-for-existing-code.mjs <appDir>
 ```
 
 Options:
@@ -60,12 +60,12 @@ Options:
 
 The run prints screens / journeys / links / endpoints and a warning count.
 
-**Where files go.** Everything for one app lives in `~/Desktop/web-hld/<project>/` (the default; Figma's file
+**Where files go.** Everything for one app lives in `~/Desktop/hld-for-existing-code/<project>/` (the default; Figma's file
 picker reaches it and it survives restarts) — never in the user's repo or a temp/scratchpad folder:
 
 ```
-~/Desktop/web-hld/
-├── figma-plugin/           ← import manifest.json once in Figma; refreshed by every webhld.mjs run
+~/Desktop/hld-for-existing-code/
+├── figma-plugin/           ← import manifest.json once in Figma; refreshed by every hld-for-existing-code.mjs run
 └── <project>/
     ├── bundle.json     ← the one file to import in Figma (later steps update it in place)
     ├── board.html          ← the same board as a web page (Step 4)
@@ -74,7 +74,7 @@ picker reaches it and it survives restarts) — never in the user's repo or a te
     └── screenshots/        ← captured images
 ```
 
-Re-running `webhld.mjs` refreshes the analysis but keeps screenshots, capture notes and API examples for
+Re-running `hld-for-existing-code.mjs` refreshes the analysis but keeps screenshots, capture notes and API examples for
 routes/endpoints that still exist, and re-applies `descriptions.json` (`--fresh` discards them). Re-capture
 after UI changes so pictures are not stale. Always end by
 telling the user the full path of `bundle.json`.
@@ -116,10 +116,10 @@ answer the API itself — only the dev server needs to run:
    OK: `--record <project>/api-recording.json --allow-real-data`. Recording takes no screenshots, never
    submits anything, and masks personal data before writing. Then capture with `--replay` against no backend
    at all: screens show that environment's data, masked (names as "ส•••••"). Keep the recording in
-   `~/Desktop/web-hld/<project>/`, never in the repo.
+   `~/Desktop/hld-for-existing-code/<project>/`, never in the repo.
 2. **`--mock auto`** (no backend ever). Fake but realistic data generated from the response TypeScript types
    (names, phones, dates, statuses picked from field names). Read the app's HTTP interceptor / base response
-   model and write the envelope it expects to `~/Desktop/web-hld/<project>/mock-wrapper.json` for
+   model and write the envelope it expects to `~/Desktop/hld-for-existing-code/<project>/mock-wrapper.json` for
    `--mock-wrapper` (e.g. `{"status":"OK","data":"$data"}`) — without it the app often
    treats every mocked call as an error. Untyped calls (`http.post(url, body)` with no `<T>`) get `{}`, so their
    lists stay empty: say so in the report, and prefer `--replay` for such projects.
@@ -169,7 +169,7 @@ that hits a real backend will do so again. `--traces <dir>` reuses traces from a
 
 The plugin draws a screenshot in place of the outline when `screenshot` is present.
 
-Save the login script as `~/Desktop/web-hld/<project>/seed-login.js` so the next run reuses it.
+Save the login script as `~/Desktop/hld-for-existing-code/<project>/seed-login.js` so the next run reuses it.
 
 ## Step 3c — Descriptions (screens and flows)
 
@@ -223,7 +223,7 @@ The board is shared, so treat everything that goes into `bundle.json` as public 
   by a re-run, and again when the Figma plugin or `html.mjs` renders them: names, citizen ID / phone numbers,
   emails, addresses, birth dates, tokens (by key name and by value shape). Cards say "personal data masked".
   Never paste raw payloads into descriptions or the report to work around this.
-- Never copy real tokens or `--storage-state` files into `~/Desktop/web-hld/<project>/`.
+- Never copy real tokens or `--storage-state` files into `~/Desktop/hld-for-existing-code/<project>/`.
 
 ## Step 4 — Output: Figma board and/or HTML page
 
@@ -232,10 +232,10 @@ Two renderers read the same `bundle.json`. Produce what the user chose in Step 0
 **HTML** (chosen HTML or Both):
 
 ```bash
-node <skill-dir>/scripts/html.mjs ~/Desktop/web-hld/<project>/bundle.json
+node <skill-dir>/scripts/html.mjs ~/Desktop/hld-for-existing-code/<project>/bundle.json
 ```
 
-It writes `~/Desktop/web-hld/<project>/board.html` — one self-contained file (screenshots embedded):
+It writes `~/Desktop/hld-for-existing-code/<project>/board.html` — one self-contained file (screenshots embedded):
 an overview (totals + every journey as a one-row mini flow), one page per journey (flow with arrows,
 compact cards), a detail drawer per screen/API (screenshot, Thai description, goes to / comes from, API
 examples), an API table, search, light/dark, browser back/forward. Opens in any browser; shareable as a file. Do not publish it anywhere (it describes an
@@ -244,7 +244,7 @@ internal app) unless the user asks.
 **Figma** (chosen Figma or Both). Figma cannot be driven from here; the user imports the bundle. Tell them:
 
 1. One time: Figma **desktop app** → Plugins → Development → **Import plugin from manifest…** →
-   `~/Desktop/web-hld/figma-plugin/manifest.json` (`webhld.mjs` keeps this copy in sync with the skill on
+   `~/Desktop/hld-for-existing-code/figma-plugin/manifest.json` (`hld-for-existing-code.mjs` keeps this copy in sync with the skill on
    every run, so the import never needs repeating; it is outside hidden `~/.claude`, so the picker shows it)
 2. Plugins → Development → **HLD for existing code** → **Choose file…** (the bundle path) or paste the JSON →
    **Generate**.

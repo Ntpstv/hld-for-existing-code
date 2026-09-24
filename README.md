@@ -49,7 +49,7 @@ Claude first asks which output you want — **Figma**, **HTML** or **both**. The
 ### 3. Output
 
 ```
-~/Desktop/web-hld/
+~/Desktop/hld-for-existing-code/
 ├── figma-plugin/            ← the Figma plugin (created automatically)
 └── <project>/
     ├── bundle.json          ← import this in Figma
@@ -73,7 +73,7 @@ Tell Claude the project has no stub. It will pick one of:
 
 ### 5. HTML board
 
-Double-click `~/Desktop/web-hld/<project>/board.html`.
+Double-click `~/Desktop/hld-for-existing-code/<project>/board.html`.
 
 - Left menu: overview, each journey, API
 - Click any screen or API for details: large screenshot, goes to / comes from, request/response examples
@@ -85,7 +85,7 @@ Double-click `~/Desktop/web-hld/<project>/board.html`.
 
 1. Open the **Figma desktop app** and any Figma file
 2. Menu → **Plugins → Development → Import plugin from manifest…**
-3. Choose `~/Desktop/web-hld/figma-plugin/manifest.json`
+3. Choose `~/Desktop/hld-for-existing-code/figma-plugin/manifest.json`
    - This folder is created by your first HLD run (step 2).
    - It refreshes itself on every run — never re-import.
 
@@ -93,7 +93,7 @@ Double-click `~/Desktop/web-hld/<project>/board.html`.
 
 1. Open the Figma file to draw in (a new page is a good idea)
 2. Menu → **Plugins → Development → HLD for existing code**
-3. **Choose file…** → `~/Desktop/web-hld/<project>/bundle.json`
+3. **Choose file…** → `~/Desktop/hld-for-existing-code/<project>/bundle.json`
 4. **Generate**
 
 You get the board on the current page (screen cards, flow arrows, GOES TO and API panels) and a new
@@ -162,7 +162,7 @@ Claude จะ**ถามก่อนว่าต้องการ output แบ
 ### 3. ไฟล์ที่ได้
 
 ```
-~/Desktop/web-hld/
+~/Desktop/hld-for-existing-code/
 ├── figma-plugin/            ← plugin สำหรับ Figma (สร้างให้อัตโนมัติ)
 └── <ชื่อโปรเจกต์>/
     ├── bundle.json          ← ไฟล์ที่ใช้ใน Figma
@@ -186,7 +186,7 @@ Claude จะ**ถามก่อนว่าต้องการ output แบ
 
 ### 5. เปิดแบบ HTML
 
-ดับเบิลคลิก `~/Desktop/web-hld/<ชื่อโปรเจกต์>/board.html`
+ดับเบิลคลิก `~/Desktop/hld-for-existing-code/<ชื่อโปรเจกต์>/board.html`
 
 - เมนูซ้าย: ภาพรวม, แต่ละ journey, API
 - คลิกหน้าจอหรือ API เพื่อดูรายละเอียด: รูปใหญ่, ไปต่อที่ไหน, เข้ามาจากไหน, ตัวอย่าง request/response
@@ -198,7 +198,7 @@ Claude จะ**ถามก่อนว่าต้องการ output แบ
 
 1. เปิด **Figma desktop app** แล้วเปิดไฟล์ Figma ไหนก็ได้
 2. เมนู → **Plugins → Development → Import plugin from manifest…**
-3. เลือก `~/Desktop/web-hld/figma-plugin/manifest.json`
+3. เลือก `~/Desktop/hld-for-existing-code/figma-plugin/manifest.json`
    - โฟลเดอร์นี้ถูกสร้างหลังรัน HLD ครั้งแรก (ข้อ 2)
    - plugin อัปเดตตัวเองทุกครั้งที่รัน ไม่ต้อง import ใหม่
 
@@ -206,7 +206,7 @@ Claude จะ**ถามก่อนว่าต้องการ output แบ
 
 1. เปิดไฟล์ Figma ที่จะวาด (แนะนำให้สร้าง page ใหม่)
 2. เมนู → **Plugins → Development → HLD for existing code**
-3. กด **Choose file…** → เลือก `~/Desktop/web-hld/<ชื่อโปรเจกต์>/bundle.json`
+3. กด **Choose file…** → เลือก `~/Desktop/hld-for-existing-code/<ชื่อโปรเจกต์>/bundle.json`
 4. กด **Generate**
 
 จะได้ board บน page ปัจจุบัน (การ์ดหน้าจอ, ลูกศร flow, ช่อง GOES TO และ API) และ page ใหม่

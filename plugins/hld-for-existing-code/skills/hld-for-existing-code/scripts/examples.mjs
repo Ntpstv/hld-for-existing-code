@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Fills `apiExamples` in a web-hld bundle: one request + response per endpoint, best source first.
+// Fills `apiExamples` in a hld-for-existing-code bundle: one request + response per endpoint, best source first.
 //   captured  — what the app really sent/received during capture.mjs (already in the bundle)
 //   stub      — stubby4j YAML mappings (url → response file / body, `post` → request)
 //   type      — a skeleton built from the request/response TypeScript types

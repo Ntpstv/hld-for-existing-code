@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// web-hld — static analyzer for Next.js / Angular front ends.
+// hld-for-existing-code — static analyzer for Next.js / Angular front ends.
 // Finds every routed screen, what each action navigates to, and every API call behind it, then
-// writes a bundle the web-hld Figma plugin draws as a board. No dependencies; Node 18+.
+// writes a bundle the hld-for-existing-code Figma plugin draws as a board. No dependencies; Node 18+.
 //
-//   node webhld.mjs <projectDir> [-o out.json] [--lang th] [--only /route-prefix ...] [--framework nextjs|angular] [--group auto|segment|none]
+//   node hld-for-existing-code.mjs <projectDir> [-o out.json] [--lang th] [--only /route-prefix ...] [--framework nextjs|angular] [--group auto|segment|none]
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -18,13 +18,13 @@ import {
 } from './lib/routes.mjs';
 
 function usage() {
-  process.stderr.write(`web-hld — HLD bundle generator for Next.js / Angular
+  process.stderr.write(`hld-for-existing-code — HLD bundle generator for Next.js / Angular
 
 Usage:
-  node webhld.mjs <projectDir> [-o out.json] [--lang th|en] [--only /prefix ...] [--framework nextjs|angular]
+  node hld-for-existing-code.mjs <projectDir> [-o out.json] [--lang th|en] [--only /prefix ...] [--framework nextjs|angular]
 
   <projectDir>   folder holding package.json (monorepo: the app's folder)
-  -o             output file (default: ~/Desktop/web-hld/<project>/bundle.json)
+  -o             output file (default: ~/Desktop/hld-for-existing-code/<project>/bundle.json)
   --lang         preferred translation file for labels (default: th, falls back to en)
   --only         keep only screens whose route starts with this prefix (repeatable)
   --fresh        discard screenshots/descriptions/API examples kept from an existing bundle at -o
@@ -61,7 +61,7 @@ if (!framework) { process.stderr.write('error: neither next nor @angular/core fo
 const projectName = project.pkg.name && project.pkg.name !== 'app' ? project.pkg.name : path.basename(project.root);
 // One folder per project that Figma's file picker can reach: bundle, descriptions, screenshots, login seed
 const homeBase = fs.existsSync(path.join(os.homedir(), 'Desktop')) ? path.join(os.homedir(), 'Desktop') : os.homedir();
-out = out || path.join(homeBase, 'web-hld', projectName.replace(/[^\w.-]/g, '_'), 'bundle.json');
+out = out || path.join(homeBase, 'hld-for-existing-code', projectName.replace(/[^\w.-]/g, '_'), 'bundle.json');
 
 const graph = new ApiGraph(project);
 const locales = project.loadLocales(lang);
@@ -323,7 +323,7 @@ for (const s of results) for (const g of s.goesTo) {
   if (g.kind === 'route' && !g.target) warnings.push(`${s.route}: navigation to "${g.raw}" matches no screen`);
 }
 const bundle = {
-  schema: 'web-hld/1',
+  schema: 'hld-for-existing-code/1',
   project: projectName,
   framework,
   generatedAt: new Date().toISOString(),
@@ -338,7 +338,7 @@ let kept = '';
 if (!fresh && fs.existsSync(out)) {
   let prev = null;
   try { prev = JSON.parse(fs.readFileSync(out, 'utf8')); } catch { /* unreadable: start clean */ }
-  if (prev && prev.schema === 'web-hld/1') {
+  if (prev && /^(hld-for-existing-code|web-hld)\/1$/.test(prev.schema)) {
     const old = new Map((prev.screens || []).map(s => [s.route, s]));
     let shots = 0;
     for (const s of bundle.screens) {
@@ -386,7 +386,7 @@ if (kept) process.stderr.write(kept + '\n');
 // hidden). Refreshed on every run so an import done once always loads the current plugin.
 {
   const src = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'figma-plugin');
-  const dest = path.join(homeBase, 'web-hld', 'figma-plugin');
+  const dest = path.join(homeBase, 'hld-for-existing-code', 'figma-plugin');
   try {
     fs.mkdirSync(dest, { recursive: true });
     let updated = 0;

@@ -46,12 +46,12 @@ if (!opt.bundle || !opt.project || (!opt.specs.length && !opt.traces)) usage();
 opt.out = opt.out || opt.bundle;
 
 const bundle = JSON.parse(fs.readFileSync(opt.bundle, 'utf8'));
-if (bundle.schema !== 'web-hld/1') { process.stderr.write('error: not a web-hld/1 bundle\n'); process.exit(1); }
+if (!/^(hld-for-existing-code|web-hld)\/1$/.test(bundle.schema)) { process.stderr.write('error: not a hld-for-existing-code/1 bundle\n'); process.exit(1); }
 
 // ── 1. Run the specs with tracing (output kept out of the project) ──────────
 let traceRoot = opt.traces;
 if (!traceRoot) {
-  traceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'web-hld-e2e-'));
+  traceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'hld-for-existing-code-e2e-'));
   const args = ['playwright', 'test', ...opt.specs, '--trace', 'on', '--reporter', 'line', '--output', traceRoot];
   if (opt.config) args.push('--config', opt.config);
   process.stderr.write(`running: npx ${args.join(' ')}\n`);

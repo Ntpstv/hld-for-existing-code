@@ -30,23 +30,23 @@ Mobile apps (iOS / Android) are out of scope — this is for web front ends.
 ## 1. Analyze
 
 ```bash
-node <skill-dir>/scripts/webhld.mjs <appDir>
+node <skill-dir>/scripts/hld-for-existing-code.mjs <appDir>
 ```
 
 `<appDir>` is the folder holding the app's `package.json`. Needs Node 18+, nothing to install.
-Output goes to `~/Desktop/web-hld/<project>/bundle.json`; the later steps update that same file, keep
+Output goes to `~/Desktop/hld-for-existing-code/<project>/bundle.json`; the later steps update that same file, keep
 `descriptions.json` beside it, and put images in `screenshots/`.
 
 ```
 framework: angular  project: my-app
 52 screen(s) in 17 journey(s) · 129 screen→screen link(s) · 69 unique endpoint(s)
 1 warning(s) — see "warnings" in the bundle
-wrote ~/Desktop/web-hld/my-app/bundle.json  (1353 ms)
+wrote ~/Desktop/hld-for-existing-code/my-app/bundle.json  (1353 ms)
 ```
 
 | Option | |
 |---|---|
-| `-o <file>` | output path (default: `~/Desktop/web-hld/<project>/bundle.json`) |
+| `-o <file>` | output path (default: `~/Desktop/hld-for-existing-code/<project>/bundle.json`) |
 | `--only /prefix` | only screens under this route (repeatable) |
 | `--group auto\|segment\|none` | journeys by first route segment, or one board (`auto`: one board for ≤ 12 screens) |
 | `--lang th\|en` | translation file used for labels |
@@ -57,7 +57,7 @@ wrote ~/Desktop/web-hld/my-app/bundle.json  (1353 ms)
 With the app running locally:
 
 ```bash
-node <skill-dir>/scripts/capture.mjs ~/Desktop/web-hld/<project>/bundle.json --base-url http://localhost:4200 \
+node <skill-dir>/scripts/capture.mjs ~/Desktop/hld-for-existing-code/<project>/bundle.json --base-url http://localhost:4200 \
   --project <appDir> --init seed-login.js
 ```
 
@@ -68,7 +68,7 @@ press save/confirm buttons — stub backends only).
 Projects with Playwright e2e specs can fill in the deepest screens from those tests:
 
 ```bash
-node <skill-dir>/scripts/e2e-shots.mjs ~/Desktop/web-hld/<project>/bundle.json --project <appDir> --specs e2e/<stub specs>
+node <skill-dir>/scripts/e2e-shots.mjs ~/Desktop/hld-for-existing-code/<project>/bundle.json --project <appDir> --specs e2e/<stub specs>
 ```
  `--init` is a script run
 before the app loads, e.g. `localStorage.setItem("authorization", …)` for a test login. Screens that redirect
@@ -77,7 +77,7 @@ before the app loads, e.g. `localStorage.setItem("authorization", …)` for a te
 ## 1c. API examples (optional)
 
 ```bash
-node <skill-dir>/scripts/examples.mjs ~/Desktop/web-hld/<project>/bundle.json --project <appDir> --stubby <stub dir>
+node <skill-dir>/scripts/examples.mjs ~/Desktop/hld-for-existing-code/<project>/bundle.json --project <appDir> --stubby <stub dir>
 ```
 
 Gives each endpoint an example request and response — real traffic recorded by `capture.mjs` first, then
@@ -106,7 +106,7 @@ Screenshots are not, so `capture.mjs` only runs against a local server unless yo
 ## HTML instead of (or as well as) Figma
 
 ```bash
-node <skill-dir>/scripts/html.mjs ~/Desktop/web-hld/<project>/bundle.json
+node <skill-dir>/scripts/html.mjs ~/Desktop/hld-for-existing-code/<project>/bundle.json
 ```
 
 Writes `board.html` beside the bundle: one file with every screen, flow arrows, links and the API reference.
@@ -115,7 +115,7 @@ Open it in a browser or send it to someone — no Figma needed.
 ## 2. Load the plugin (once)
 
 Figma **desktop app** → Plugins → Development → **Import plugin from manifest…** →
-`~/Desktop/web-hld/figma-plugin/manifest.json` — `webhld.mjs` creates and refreshes this copy on every run,
+`~/Desktop/hld-for-existing-code/figma-plugin/manifest.json` — `hld-for-existing-code.mjs` creates and refreshes this copy on every run,
 so re-importing is never needed.
 
 ## 3. Generate
@@ -134,7 +134,7 @@ Re-running replaces the previous board and leaves hand-drawn content alone.
 hld-for-existing-code/
 ├── SKILL.md              # Claude Code skill
 ├── scripts/
-│   ├── webhld.mjs        # CLI entry
+│   ├── hld-for-existing-code.mjs        # CLI entry
 │   ├── capture.mjs       # optional real screenshots via Playwright (URL + click-through)
 │   ├── examples.mjs      # API request/response examples: captured → stub files → TS types
 │   ├── html.mjs          # the board as one self-contained HTML page
